@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block 'main' %}
+    <h1 class="text-4xl mx-auto mb-10">Looking for a reliable, GDPR&#8209;compliant newsletter service?</h1>
+    <h2 class="text-2xl mb-2">Well we've got you covered at SpeedLetters!</h2>
+    <h2 class="text-xl mb-16">With zero commitment and no limit you <span class="underline text-xl">only pay for what you use</span>.</h2>
+    
+    <div id="prices" class="lg:flex lg:justify-around">
+        <div class="card rounded-md border-2 px-10 py-5 m-3 bg-slate-200 dark:bg-slate-600">
+            <span class="text-lg inline-block mb-5">0-500</span><br>
+            <span class="text-md inline-block">£0.01 per ✉️</span>
+        </div>
+        <div class="card rounded-md border-2 px-10 py-5 m-3 bg-slate-200 dark:bg-slate-600">
+            <span class="text-lg inline-block mb-5">501-1000</span><br>
+            <span class="text-md inline-block">£0.007 per ✉️</span>
+        </div>
+        <div class="card rounded-md border-2 px-10 py-5 m-3 bg-slate-200 dark:bg-slate-600">
+            <span class="text-lg inline-block mb-5">1001-1500</span><br>
+            <span class="text-md inline-block">£0.005 per ✉️</span>
+        </div>
+        <div class="card rounded-md border-2 px-10 py-5 m-3 bg-slate-200 dark:bg-slate-600">
+            <span class="text-lg inline-block mb-5">1501+</span><br>
+            <span class="text-md inline-block">£0.003 per ✉️</span>
+        </div>
+    </div>
+    <div class="w-full my-10"><a href="{% url 'sign-up' %}" class="hover:underline text-md rounded py-3 px-5 border-2 border-slate-300 hover:bg-slate-300 duration-100 ease-in bg-slate-200 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:bg-slate-800">Get started!</a></div>
+    <p class="text-lg my-20">For more info <a href="#" class="text-lg m-0 py-1 px-2 mt-2 duration-100 ease-in border-slate-300 bg-slate-200 hover:bg-slate-300 dark:hover:bg-slate-800 dark:hover:border-slate-800 border-2 dark:bg-slate-800 hover:underline rounded">contact&nbsp;us</a></p>
+{% endblock %}

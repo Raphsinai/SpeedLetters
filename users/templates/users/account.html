@@ -1,0 +1,111 @@
+{% extends 'dashbase.html' %}
+{% block 'main' %}
+    <h1 class="text-2xl mb-3">Account</h1>
+    <form action="" method="post" id="generalform" class="mt-10 w-full md:w-1/2 mx-auto grid columns-2">
+        {% csrf_token %}
+        <h1 class="col-span-2 text-2xl mb-5" id="general">General</h1>
+        <h3 class="col-span-2 my-3 text-lg border-2 border-slate-300 px-3 bg-green-500 rounded mx-auto text-white hidden" id="generalmsgsuccess"></h3>
+        <h3 class="col-span-2 my-3 text-lg border-2 border-slate-300 px-3 bg-red-500 rounded mx-auto text-white hidden" id="generalmsgfail"></h3>
+        <label for="emailinput" class="text-lg col-span-1 self-center">Email: </label>
+        <input type="email" name="email" id="emailinput" value="{{ user.email }}" class="border-2 col-span-1 mb-3 border-slate-300 rounded">
+        <label for="oldpwd" class="text-lg col-span-1 self-center">Old&nbsp;password: </label>
+        <input type="password" name="oldpwd" id="oldpwd" class="border-2 col-span-1 border-slate-300 mb-3 rounded">
+        <label for="newpwd" class="text-lg col-span-1 self-center">New&nbsp;password: </label>
+        <input type="password" name="newpwd" id="newpwd" onkeyup="checkpassword(this)" onfocus="$('#password_msg').show()" onblur="$('#password_msg').hide()" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="border-2 col-span-1 border-slate-300 mb-3 rounded">
+        <div class="col-span-2 text-sm mb-3 hidden" id="password_msg">
+            <span class="text-sm">Password must contain at least:</span>
+            <ul>
+                <li class="text-sm ml-3 justify-center flex items-center">One uppercase character <span id="upper"><svg xmlns="http://www.w3.org/2000/svg" fill="none" color="rgb(239 68 68)" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></span></li>
+                <li class="text-sm ml-3 justify-center flex items-center">One lowercase character <span id="lower"><svg xmlns="http://www.w3.org/2000/svg" fill="none" color="rgb(239 68 68)" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></span></li>
+                <li class="text-sm ml-3 justify-center flex items-center">One number <span id="num"><svg xmlns="http://www.w3.org/2000/svg" fill="none" color="rgb(239 68 68)" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></span></li>
+                <li class="text-sm ml-3 justify-center flex items-center">8 characters <span id="charlen"><svg xmlns="http://www.w3.org/2000/svg" fill="none" color="rgb(239 68 68)" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></span></li>
+            </ul>
+        </div>
+        <label for="newpwdrepeat" class="text-lg col-span-1 self-center">Repeat&nbsp;new password: </label>
+        <input type="password" name="newpwdrepeat" id="newpwdrepeat" class="border-2 col-span-1 border-slate-300 mb-3 rounded">
+        <button type="submit" class="hover:underline text-md rounded py-3 px-5 border-2 border-slate-300 hover:bg-slate-300 duration-100 ease-in bg-slate-200 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:bg-slate-800 col-span-2 w-full mx-auto my-5 md:w-1/2">Update</button>
+    </form>
+    <form action="" id="personalform" method="post" class="mt-10 w-full md:w-1/2 mx-auto grid columns-2">
+        {% csrf_token %}
+        <h1 class="col-span-2 text-2xl my-5" id="personal">Personal Details</h1>
+        <h3 class="col-span-2 my-3 text-lg border-2 border-slate-300 px-3 bg-green-500 rounded mx-auto text-white hidden" id="personalmsgsuccess"></h3>
+        <h3 class="col-span-2 my-3 text-lg border-2 border-slate-300 px-3 bg-red-500 rounded mx-auto text-white hidden" id="personalmsgfail"></h3>
+        <label for="fnameinput" class="text-lg col-span-1 self-center">First&nbsp;name: </label>
+        <input type="text" name="first_name" id="fnameinput" value="{{ user.first_name }}" class="border-2 col-span-1 mb-3 border-slate-300 rounded">
+        <label for="lnameinput" class="text-lg col-span-1 self-center">Last&nbsp;name: </label>
+        <input type="text" name="last_name" id="lnameinput" value="{{ user.last_name }}" class="border-2 col-span-1 mb-3 border-slate-300 rounded">
+        <label for="dobinput" class="text-lg col-span-1 self-center">Date&nbsp;of&nbsp;birth: </label>
+        <input type="date" name="dob" id="dobinput" class="border-2 col-span-1 border-slate-300 rounded mb-3">
+        <label for="companyinput" class="text-lg col-span-1 self-center">Company: </label>
+        <input type="text" name="company" id="companyinput" value="{{ user.company }}" class="border-2 col-span-1 mb-3 border-slate-300 rounded">
+        <label for="phoneinput" class="text-lg col-span-1 self-center">Phone: </label>
+        <input type="tel" name="phone" id="phoneinput" value="{{ user.phone }}" class="border-2 col-span-1 mb-3 border-slate-300 rounded">
+        <button type="submit" class="hover:underline text-md rounded py-3 px-5 border-2 border-slate-300 hover:bg-slate-300 duration-100 ease-in bg-slate-200 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:bg-slate-800 col-span-2 w-full mx-auto my-5 md:w-1/2">Update</button>
+    </form>
+{% endblock %}
+{% block 'body' %}
+    <script>
+        $(document).ready((e) => {
+            $('#dobinput').val("{{ user.dob|date:'Y-m-d' }}");
+        })
+        $('#generalform').on('submit', (e) => {
+            e.preventDefault();
+            $('#generalmsgsuccess').addClass('hidden');
+            $('#generalmsgfail').addClass('hidden');
+            var formData = $('#generalform').serializeArray();
+            var postData = {};
+            $(formData).each(
+                (i, val) => {
+                    postData[val['name']] = val['value'];
+                }
+            );
+            $.post("{% url 'generalUpdate' %}", postData, (res) => {
+                if (res['csrf'] != null) {
+                    $('input[name="csrfmiddlewaretoken"]').val(res['csrf']);
+                }
+                if (res['success'] && res['desc'] != '') {
+                    $('#generalmsgsuccess').text(res['desc']);
+                    $('#generalmsgsuccess').removeClass('hidden');
+                }
+                else if (res['desc'] != '') {
+                    $('#generalmsgfail').text(res['desc']);
+                    $('#generalmsgfail').removeClass('hidden');
+                }
+            });
+        });
+        $('#personalform').on('submit', (e) => {
+            e.preventDefault();
+            $('#personalmsgsuccess').addClass('hidden');
+            $('#personalmsgfail').addClass('hidden');
+            var formData = $('#personalform').serializeArray();
+            var postData = {};
+            $(formData).each(
+                (i, val) => {
+                    postData[val['name']] = val['value'];
+                }
+            );
+            $.post("{% url 'personalUpdate' %}", postData, (res) => {
+                if (res['csrf'] != null) {
+                    $('input[name="csrfmiddlewaretoken"]').val(res['csrf']);
+                }
+                if (res['success'] && res['desc'] != '') {
+                    $('#personalmsgsuccess').text(res['desc']);
+                    $('#personalmsgsuccess').removeClass('hidden');
+                }
+                else if (res['desc'] != '') {
+                    $('#personalmsgfail').text(res['desc']);
+                    $('#personalmsgfail').removeClass('hidden');
+                }
+            });
+        });
+        var tick = "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" color=\"rgb(34 197 94)\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" class=\"w-6 h-6\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M4.5 12.75l6 6 9-13.5\" /></svg>";
+        var cross = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" color="rgb(239 68 68)" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>';
+        
+        function checkpassword(input) {
+            if (input.value.match(/[a-z]/) != null) { $('#lower').html(tick) } else { $('#lower').html(cross)}
+            if (input.value.match(/[A-Z]/) != null) { $('#upper').html(tick) } else { $('#upper').html(cross)}
+            if (input.value.match(/[0-9]/) != null) { $('#num').html(tick) } else { $('#num').html(cross)}
+            if (input.value.length >= 8) { $('#charlen').html(tick) } else { $('#charlen').html(cross)}
+        }
+    </script>
+{% endblock %}

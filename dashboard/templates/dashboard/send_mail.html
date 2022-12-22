@@ -1,0 +1,67 @@
+{% extends 'dashbase.html' %}
+{% block 'head' %}
+    {% load static %}
+    <link href="{% static 'css/grapes.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/grapesjs-preset-newsletter.css' %}" rel="stylesheet"/>
+{% endblock %}
+{% block 'main' %}
+    <h1 class="text-2xl">Send email</h1>
+    {% if msg %}
+        <div class="border-2 border-slate-300 px-3 bg-red-700 rounded w-1/2 mx-auto text-white">
+            <p class="text-sm">{{ msg_content }}</p>
+        </div>
+    {% endif %}
+    <form action="" id="mailform" enctype="multipart/form-data" method="post" class="my-10 w-full lg:w-1/2 mx-auto">
+        {% csrf_token %}
+        <select name="newsletter" id="newsletterselect" class="rounded border-2 text-slate-700 border-slate-300 my-3 w-full">
+            {% for newsletter in user.newsletter_set.all %}
+                <option value="{{ newsletter.id }}" {% if selected == newsletter.id %}selected{% endif %}>{{ newsletter.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="subject" id="subjectinput" placeholder="subject" class="border-2 border-slate-300 rounded w-full req" required>
+        <div class="bg-slate-200 rounded border-2 border-slate-300 dark:bg-slate-500 my-3 p-3">
+            <span class="text-md my-3 font-medium">upload your template</span>
+            <input type="file" name="htmlfile" class="dark:text-white" id="fileinput" accept="text/html">
+        </div>
+        <br><span class="my-3 text-lg font-medium">or</span>
+        <br><span class="my-3 text-lg font-medium">create your template (autosaves)</span>
+        <br><span class="my-3 text-lg font-medium">activate fullscreen for a better experience</span>
+        <br>
+        <br><span class="my-3 text-lg font-medium">to add recipent's first name use: <span class="border-2 border-slate-300 rounded font-mono font-light p-1">{% verbatim %}{{&nbsp;firstName&nbsp;}}{% endverbatim %}</span></span>
+        <br><span class="my-3 text-lg font-medium">to add recipent's last name use: <span class="border-2 border-slate-300 rounded font-mono font-light p-1">{% verbatim %}{{&nbsp;lastName&nbsp;}}{% endverbatim %}</span></span>
+        <div id="gjs" class="mt-10"></div>
+        <input type="text" name="html" id="htmlinput" hidden>
+        <input type="text" name="css" id="cssinput" hidden>
+        <input type="text" name="js" id="jsinput" hidden>
+        <button type="submit" id="smbbtn" class="w-full mt-10 p-3 border-2 border-slate-300 duration-100 ease-in bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-800 dark:hover:border-slate-800 rounded">Continue</button>
+    </form>
+    {% block 'body' %}
+        <script src="{% static 'js/jquery-validation.js' %}"></script>
+        <script src="{% static 'js/grapes.min.js' %}"></script>
+        <script src="{% static 'js/grapesjs-preset-newsletter.min.js' %}"></script>
+        <script type="text/javascript">
+            var editor = grapesjs.init({
+                container : '#gjs',
+                plugins: ['gjs-preset-newsletter'],
+                pluginsOpts: {
+                    'gjs-preset-newsletter': {
+                    modalTitleImport: 'Import template',
+                    }
+                }
+            });
+            $('#smbbtn').click((e) => {
+                $('#mailform').validate();
+                $('#htmlinput').val(editor.getHtml());
+                $('#cssinput').val(editor.getCss());
+                $('#jsinput').val(editor.getJs());
+                $('#mailform').submit();
+            });
+            $('#mailform').keydown(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

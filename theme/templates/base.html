@@ -1,0 +1,61 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>{{ title }} - SpeedLetters</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com"> 
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+		<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
+		<link rel="icon" type="image/x-icon" href="/media/logo.ico">
+		{% tailwind_css %}
+		<link rel="stylesheet" href="{% static 'css/cust.css' %}">
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		{% block 'head' %}{% endblock %}
+	</head>
+
+	<body class="bg-gray-100 dark:bg-gray-500 leading-normal tracking-normal dark:text-white flex flex-col justify-between min-h-screen">
+		<div>
+			<header class="w-full drop-shadow-md sticky top-0">
+				<div class="flex items-center justify-between px-10 py-5 bg-slate-300 dark:bg-slate-700">
+					<a href="{% url 'index' %}"><img src="/media/logo.png" alt="logo" class="w-16 sm:w-20"></a>
+					<nav class="items-center hidden md:flex w-full justify-end">
+						<ul class="flex justify-evenly w-3/5">
+							<li><a class="text-lg hover:underline" href="{% url 'index' %}">Home</a></li>
+							<li><a class="text-lg hover:underline" href="{% url 'index' %}#prices">Pricing</a></li>
+							<li><a class="text-lg hover:underline" href="{% url 'contact' %}">Contact</a></li>
+							<li><a class="text-lg hover:underline" href="{% url 'login' %}">Log in</a></li>
+							<li><a class="text-lg hover:underline" href="{% url 'sign-up' %}">Sign up</a></li>
+						</ul>
+					</nav>
+					<div class="md:hidden hover:cursor-pointer" id="hamburger" onclick="hamclick()">
+						<div class="bar1 bg-black dark:bg-white w-8 h-1 m-1.5 rounded ease-out duration-500"></div>
+						<div class="bar2 bg-black dark:bg-white w-8 h-1 m-1.5 rounded ease-out duration-500"></div>
+						<div class="bar3 bg-black dark:bg-white w-8 h-1 m-1.5 rounded ease-out duration-500"></div>
+					</div>
+				</div>
+				<nav id="clicknav" class="hidden z-10 close origin-top bg-slate-300 dark:bg-slate-700 pb-10 pt-5" onclick="hamclick()">
+					<ul class="text-center w-full">
+						<li><a class="text-lg hover:underline w-full inline-block m-2" href="{% url 'index' %}">Home</a></li>
+						<li><a class="text-lg hover:underline w-full inline-block m-2" href="{% url 'index' %}#prices">Pricing</a></li>
+						<li><a class="text-lg hover:underline w-full inline-block m-2" href="{% url 'contact' %}">Contact</a></li>	
+						<li><a class="text-lg hover:underline w-full inline-block m-2" href="{% url 'login' %}">Log in</a></li>
+						<li><a class="text-lg hover:underline w-full inline-block m-2" href="{% url 'sign-up' %}">Sign up</a></li>
+					</ul>
+				</nav>
+			</header>
+			<main class="w-3/4 mx-auto my-20 text-center {% block 'mainstyles' %}{% endblock %}">
+				{% block 'main' %}
+					
+				{% endblock %}
+			</main>
+		</div>
+		<footer class="bg-slate-300 w-full h-16 flex justify-center items-center text-center dark:bg-slate-700 dark:text-white">
+			<span class="text-sm">&copy; 2022 SpeedLetters</span>
+		</footer>
+		<script src="{% static 'js/script.js' %}"></script>
+		{% block 'body' %}{% endblock %}
+	</body>
+</html>

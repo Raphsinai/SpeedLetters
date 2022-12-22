@@ -1,0 +1,10 @@
+{% extends 'dashbase.html' %}
+{% block 'main' %}
+    <h1 class="text-2xl">Newsletters</h1>
+    <ul class="my-10 border-2 rounded border-slate-200 dark:border-slate-300 bg-slate-300 dark:bg-slate-600 md:w-3/4 mx-auto">
+        {% for newsletter in user.newsletter_set.all %}
+            <li class="py-3 border border-slate-200 dark:border-slate-300"><a href="{% url 'newsletterDetail' newsletter.id %}" class="hover:underline">{{ newsletter.name }}</a></li>
+        {% endfor %}
+        <li class="py-3 border-slate-300 bg-slate-200 dark:bg-slate-500"><a href="{% url 'createNewsletter' %}" class="hover:underline">Create</a></li>
+    </ul>
+{% endblock %}

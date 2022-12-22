@@ -1,0 +1,12 @@
+{% extends 'dashbase.html' %}
+{% block 'main' %}
+    <h1 class="text-2xl">{{ email.subject }}</h1>
+    <h3 class="text-lg">{{ email.date_sent }}</h3>
+    <h3 class="text-lg font-semibold my-2 {% if email.sent %}text-green-600{% else %}text-red-500{% endif %}">{{ email.status }}</h3>
+    <h3 class="text-lg mb-3">Cost to send: £{{ email.cost }}</h3>
+    <h3 class="text-lg mb-3">Newsletter: <a href="{% url 'newsletterDetail' email.origin.id %}" class="text-lg underline underline-offset-2 hover:no-underline">{{ email.origin.name }}</a></h3>
+    <h3 class="text-lg mb-3">Subject: {{ email.subject }}</h3>
+    <h3 class="text-lg mb-1">Preview:</h3>
+    <h3 class="text-md mb-3">Drag from bottom right to resize</h3>
+    <div class="flex m-0 p-0 resize overflow-hidden border-1 border-dotted border-black"><iframe srcdoc="{{ email.content_html }}" class="resize flex-grow m-0 p-0 border-0 h-96" frameborder="0"></iframe></div>
+{% endblock %}

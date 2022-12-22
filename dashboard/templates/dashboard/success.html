@@ -1,0 +1,8 @@
+{% extends 'dashbase.html' %}
+{% block 'main' %}
+    {% if trans %}
+        <h1 class="text-2xl">Success!</h1>
+        <h2 class="text-xl mt-10">£{{ trans.amount }} has been added to your account.</h2>
+        <div class="w-full my-10"><a href="{% url 'credit' %}" class="hover:underline text-md rounded py-3 px-5 border-2 border-slate-300 hover:bg-slate-300 duration-100 ease-in bg-slate-200 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:bg-slate-800">Back to credit</a></div>
+    {% endif %}
+{% endblock %}

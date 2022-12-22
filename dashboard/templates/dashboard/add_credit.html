@@ -1,0 +1,9 @@
+{% extends 'dashbase.html' %}
+{% block 'main' %}
+    <h1 class="text-2xl">Add more credit</h1>
+    <form action="" method="post" class="mt-10">
+        {% csrf_token %}
+        <input type="number" min="5" name="amount" class="border-2 border-slate-300 rounded w-full" id="amountinput" placeholder="Amount you would like to buy (min. £5)">
+        <button type="submit" class="w-full mt-10 p-3 border-2 border-slate-300 duration-100 ease-in bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-800 dark:hover:border-slate-800 rounded">Continue with Stripe</button>
+    </form>
+{% endblock %}

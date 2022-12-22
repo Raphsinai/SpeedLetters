@@ -1,0 +1,16 @@
+{% extends 'dashbase.html' %}
+{% block 'main' %}
+    <h1 class="text-2xl mb-10">Confirm Send</h1>
+    <h3 class="text-lg mb-3">Cost to send: £{{ email.cost }}</h3>
+    <h3 class="text-lg mb-3">Your credit: £{{ user.credit }}</h3>
+    <h3 class="text-lg mb-3">Newsletter: {{ email.origin.name }}</h3>
+    <h3 class="text-lg mb-3">Subject: {{ email.subject }}</h3>
+    <h3 class="text-lg mb-1">Preview:</h3>
+    <h3 class="text-md mb-3">Drag from bottom right to resize</h3>
+    <div class="flex m-0 p-0 resize overflow-hidden border-1 border-dotted border-black"><iframe srcdoc="{{ email.content_html }}" class="resize flex-grow m-0 p-0 border-0 h-96" frameborder="0"></iframe></div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="number" name="id" id="idinput" value="{{ email.id }}" hidden>
+        <div class="w-full my-10"><button type="submit" class="hover:underline text-md rounded py-3 px-5 border-2 border-slate-300 hover:bg-slate-300 duration-100 ease-in bg-slate-200 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:bg-slate-800">Send</a></div>
+    </form>    
+{% endblock %}

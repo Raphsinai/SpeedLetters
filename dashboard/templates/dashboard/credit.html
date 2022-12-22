@@ -1,0 +1,33 @@
+{% extends 'dashbase.html' %}
+{% block 'main' %}
+    <h1 class="text-2xl mb-5">Manage Credit</h1>
+    <h2 class="text-xl mb-5">Current Balance: £{{ user.credit }}</h2>
+
+    <div class="w-full my-10"><a href="{% url 'addCredit' %}" class="hover:underline text-md rounded py-3 px-5 border-2 border-slate-300 hover:bg-slate-300 duration-100 ease-in bg-slate-200 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:bg-slate-800">Buy more credit</a></div>
+
+    <h3 class="text-lg">transaction history</h3>
+    <ul class="w-full my-5 bg-slate-300 dark:bg-slate-600 border-x-2 border-t-2 border-slate-200 dark:border-slate-300 rounded md:w-3/4 mx-auto" id="hist">
+        <li id="loading" class="flex px-10 py-1 items-center border-b-2 border-slate-200 dark:border-slate-300 mx-0 justify-center"><img src="/media/logo.png" class="animate-spin w-10" alt="loading"></li>
+    </ul>
+{% endblock %}
+{% block 'body' %}
+    <script>
+        function getData() {
+            $.getJSON( "{% url 'creditData' %}", function( data ) {
+                var items = [];
+                $.each( data, function liConvert(key, val) {
+                    console.log(val)
+                    desc = val[0];
+                    amount = val[1];
+                    cls = amount < 0 ? 'text-red-500' : 'text-green-500';
+                    li = `<li class="flex px-10 py-1 justify-between items-center border-b-2 border-slate-200 dark:border-slate-300 mx-0"><span>${desc}</span><span class="${cls} my-2">£${amount}</span></li>`;
+                    items.push(li);
+                });
+                
+                $('#loading').remove();
+                $(items.join('')).appendTo("#hist");
+            });
+        }
+        getData()
+    </script>
+{% endblock %}

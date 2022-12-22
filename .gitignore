@@ -1,0 +1,10 @@
+*/migrations/
+*/__pycache__/
+*/migrations/*
+*/__pycache__/*
+cert.pem
+db.sqlite3
+key.pem
+package.json
+privacy.html
+terms.html
