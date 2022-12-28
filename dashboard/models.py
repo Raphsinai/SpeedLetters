@@ -95,7 +95,7 @@ class Email(models.Model):
             if '<head>' not in html:
                 html = '<head></head>' + html
             html = BeautifulSoup(html, 'html.parser')
-            footer = BeautifulSoup(render_to_string('templates/email_footer.html', {'id': self.origin.id}), 'html.parser')
+            footer = BeautifulSoup(render_to_string('templates/email_footer.html', {'id': self.origin.id, 'username': self.origin.creator.username}), 'html.parser')
             html.body.append(footer)
             if css is not None:
                 html.head.append(BeautifulSoup(f'<style>{css}</style>', 'html.parser'))
