@@ -3,7 +3,9 @@ from users.models import User
 from django.utils import timezone
 from datetime import timedelta
 from django.core import mail
+from django.core.mail import send_mail
 from django.conf import settings
+from django.template.loader import render_to_string
 from bs4 import BeautifulSoup
 import stripe
 
@@ -112,10 +114,21 @@ class Subscriber(models.Model):
     email = models.EmailField()
     subscription = models.ForeignKey(Newsletter, on_delete=models.CASCADE)
     date_joined = models.DateTimeField(auto_now_add=True)
-    is_recv = models.BooleanField(default=True)
+    consent_date = models.DateTimeField(null=True)
+    is_recv = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name} | {self.subscription.name}"
+
+    def save(self, confirm: bool = False, *args, **kwargs):
+        if confirm:
+            context = {
+                'sub': self,
+            }
+            template = render_to_string('main/signup_confirm_email.html', context=context)
+            text = BeautifulSoup(template, 'html.parser').get_text()
+            send_mail(f'Confirm signup to {self.subscription.name}', text, f'{self.subscription.name} <{self.subscription.reply_to}>', [self.email], True, html_message=template)
+        super(Subscriber, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         self.is_recv = False

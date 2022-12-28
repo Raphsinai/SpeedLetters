@@ -1,0 +1,44 @@
+@keyframes open-menu {
+    from {
+        transform: scaleY(0);
+    }
+    to {
+        transform: scaleY(1);
+    }
+}
+@keyframes close-menu {
+    from {
+        transform: scaleY(1);
+    }
+    to {
+        transform: scaleY(0);
+    }
+}
+* {
+    font-family: 'Fragment Mono', monospace;
+    font-size: 16px;
+}
+.change > .bar1 {
+    transform: rotate(45deg) translateY(7px) translateX(7px);
+}
+.change > .bar3 {
+    transform: rotate(-45deg) translateY(-7px) translateX(7px);
+}
+.change > .bar2 {
+    opacity: 0;
+}
+.open {
+    animation: open-menu 400ms ease-in-out forwards;
+}
+.close {
+    animation: close-menu 300ms ease-in-out forwards;
+}
+
+input, textarea {
+    color: rgb(51 65 85);
+}
+
+#gjs  {
+    width: 98vw !important;
+    margin-left: calc(50% - 49vw);
+}

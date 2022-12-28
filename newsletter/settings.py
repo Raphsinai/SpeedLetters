@@ -137,12 +137,7 @@ STATIC_ROOT = BASE_DIR / STATIC_URL
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django_node_assets.finders.NodeModulesFinder',
 ]
-
-NODE_MODULES_ROOT = BASE_DIR / 'node_modules'
-NODE_PACKAGE_JSON = BASE_DIR / 'package.json'
-NODE_PACKAGE_MANAGER_EXECUTABLE = '/usr/local/bin/npm'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / MEDIA_URL

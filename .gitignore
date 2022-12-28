@@ -6,5 +6,4 @@ cert.pem
 db.sqlite3
 key.pem
 package.json
-privacy.html
 terms.html

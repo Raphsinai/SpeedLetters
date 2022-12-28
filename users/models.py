@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from itertools import chain
+from bs4 import BeautifulSoup
 
 # Create your models here.
 
@@ -38,14 +41,28 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField('phone number', max_length=15)
     company = models.CharField('company name', max_length=200)
     email = models.EmailField('email address', unique=True)
+    validated_email = models.BooleanField(default=False)
     credit = models.FloatField('credit available', default=0)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = [username, first_name, last_name, dob, phone, company]
 
     objects = UserManager()
+
+    def send_validation(self):
+        context = {
+            'user': self
+        }
+        template = render_to_string('users/emailconfirm.html', context=context)
+        text = BeautifulSoup(template, 'html.parser').get_text()
+        send_mail('Confirm email address - SpeedLetters', text, 'SpeedLetters <noreply.speedletters@gmail.com>', [self.email], True, html_message=template)
+        
+    def save(self, *args, **kwargs):
+        if not self.validated_email:
+            self.send_validation()
+        super(User, self).save(*args, **kwargs)
 
     @property
     def emails(self):

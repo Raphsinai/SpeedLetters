@@ -5,6 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.utils import IntegrityError
 from django.http import HttpResponseNotFound
 from django.core.validators import validate_email 
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 
 # Create your views here.
 
@@ -68,7 +70,7 @@ def sub(request, id):
             return render(request, 'main/sub.html', context)
         sub = Subscriber(first_name=fname, last_name=lname, email=email, subscription=newsletter)
         try:
-            sub.save()
+            sub.save(confirm=True)
         except IntegrityError:
             context['msg'] = True
             context['msg_content'] = 'Email is already subscribed'
@@ -112,3 +114,18 @@ def unsub(request, id):
         context['unsub'] = unsub
         return render(request, 'main/unsubbed.html', context)
     return render(request, 'main/unsub.html', context)
+
+@csrf_exempt
+def signupconfirm(request):
+    if request.method == "POST":
+        sub = Subscriber.objects.get(id=int(request.POST['id']))
+        sub.is_recv = True
+        sub.consent_date = timezone.now()
+        sub.save()
+        context = {
+            'title': f'Successfully signed up to {sub.subscription.name}',
+            'subscriber': sub,
+            'validated': True
+        }
+        return render(request, 'main/subbed.html', context)
+    return HttpResponseNotFound('no origin')

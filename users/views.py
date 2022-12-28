@@ -6,6 +6,7 @@ from django.core.validators import validate_email
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
 from django.middleware import csrf
 from datetime import date
 # Create your views here.
@@ -59,6 +60,26 @@ def signup(request):
             "title": "Sign up",
         }
         return render(request, 'users/signup.html', context)
+
+@csrf_exempt
+def confirmEmail(request):
+    if request.method == "POST":
+        user = User.objects.get(id=int(request.POST['id']))
+        user.validated_email = True
+        user.save()
+        context = {
+            'title': 'Email verified'
+        }
+        return render(request, 'users/validated.html', context)
+    return HttpResponseBadRequest()
+
+def resendConfirm(request, id):
+    user = User.objects.get(id=id)
+    user.send_validation()
+    context = {
+        'title': 'Validation email resent',
+    }
+    return render(request, 'users/validation_sent.html', context)
 
 def loginPage(request):
     if request.user.is_authenticated:

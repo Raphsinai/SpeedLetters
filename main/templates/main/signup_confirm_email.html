@@ -1,0 +1,9 @@
+{% extends 'email_base.html' %}
+{% block 'main' %}
+    <h1 class="text-2xl">Final step - {{ sub.subscription.name }}</h1>
+    <form action="https://speedletters.co.uk{% url 'confirmsubmail' %}" class="mt-10">
+        <input type="number" name="id" id="idinput" value="{{ sub.id }}" readonly required hidden>
+        <button type="submit" class="w-full mt-10 p-3 border-2 border-slate-300 duration-100 ease-in bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-800 dark:hover:border-slate-800 rounded">Start recieving</button>
+    </form>
+    <h3 class="text-lg mt-6">If you have not signed up for this newsletter you can ignore this message</h3>
+{% endblock %}

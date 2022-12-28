@@ -7,4 +7,5 @@ urlpatterns = [
     path('contact/', contact, name='contact'),
     path('subscribe/<int:id>', sub, name='subscribe'),
     path('unsubscribe/<int:id>', unsub, name='unsubscribe'),
+    path('subscribe/confirm', signupconfirm, name='confirmsubmail')
 ]

@@ -9,6 +9,7 @@
         <input type="email" name="subemail" id="subemailinput" class="col-span-2 border-2 mb-3 border-slate-300 rounded" placeholder="email address"{% if user.is_authenticated %} value="{{ user.email }}"{% endif %} required>
         <input type="text" name="fname" id="fnameinput" class="col-span-1 border-2 mb-3 border-slate-300 rounded" placeholder="first name"{% if user.is_authenticated %} value="{{ user.first_name }}"{% endif %} required>
         <input type="text" name="lname" id="lnameinput" class="col-span-1 border-2 mb-3 border-slate-300 rounded" placeholder="last name"{% if user.is_authenticated %} value="{{ user.last_name }}"{% endif %} required>
+        <div class="col-span-2 flex justify-center items-center"><input type="checkbox" name="accept" id="acceptinput" class="m-3" required><label for="acceptinput">I want to recieve marketing, informational and promotional emails from this newsletter.</label></div>
         <button type="submit" class="hover:underline text-md rounded py-3 px-5 border-2 border-slate-300 hover:bg-slate-300 duration-100 ease-in bg-slate-200 dark:hover:bg-slate-800 dark:hover:border-slate-800 dark:bg-slate-800 col-span-2 w-full mx-auto my-5 md:w-1/2">Subscribe</button>
     </form>
 {% endblock %}
