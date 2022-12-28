@@ -6,6 +6,7 @@ from django.core import mail
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.template import Engine
 from bs4 import BeautifulSoup
 import stripe
 
@@ -94,6 +95,8 @@ class Email(models.Model):
             if '<head>' not in html:
                 html = '<head></head>' + html
             html = BeautifulSoup(html, 'html.parser')
+            footer = BeautifulSoup(render_to_string('templates/email_footer.html', {'id': self.origin.id}), 'html.parser')
+            html.body.append(footer)
             if css is not None:
                 html.head.append(BeautifulSoup(f'<style>{css}</style>', 'html.parser'))
             if js is not None:

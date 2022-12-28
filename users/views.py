@@ -73,13 +73,16 @@ def confirmEmail(request):
         return render(request, 'users/validated.html', context)
     return HttpResponseBadRequest()
 
-def resendConfirm(request, id):
-    user = User.objects.get(id=id)
-    user.send_validation()
-    context = {
-        'title': 'Validation email resent',
-    }
-    return render(request, 'users/validation_sent.html', context)
+def resendConfirm(request):
+    try:
+        user = request.user
+        user.send_validation()
+        context = {
+            'title': 'Validation email resent',
+        }
+        return render(request, 'users/validation_sent.html', context)
+    except AttributeError:
+        return HttpResponseBadRequest()
 
 def loginPage(request):
     if request.user.is_authenticated:
